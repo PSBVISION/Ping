@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { Victor_Mono } from "next/font/google";
 import "./globals.css";
 
-const jetbrainsMono  = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+const victorMono  = Victor_Mono({
+  variable: "--font-victor-mono",
   subsets: ["latin"],
+  weight: ["700"],
 })
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="hydrated">
       <body
-        className={`${jetbrainsMono.variable}  antialiased`}
+        className={`${victorMono.variable}  antialiased`}
       >
         {children}
       </body>
