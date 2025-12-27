@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Victor_Mono } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/components/providers";
 
 const victorMono  = Victor_Mono({
   variable: "--font-victor-mono",
   subsets: ["latin"],
-  weight: ["700"],
 })
 
 export const metadata: Metadata = {
@@ -23,7 +23,9 @@ export default function RootLayout({
       <body
         className={`${victorMono.variable}  antialiased`}
       >
+        <Providers>
         {children}
+        </Providers>
       </body>
     </html>
   );
