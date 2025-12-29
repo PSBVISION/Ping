@@ -1,4 +1,6 @@
 "use client";
+import { client } from "@/lib/client";
+import { useMutation } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 
@@ -6,29 +8,38 @@ const ADJECTIVES = ["Swift", "Silent", "Brave", "Clever", "Mighty"];
 const STORAGE_KEY = "chat_app_user_name";
 const generateUserName = () => {
   const word = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
-  return `anonymous-${word.toLowerCase()}-${nanoid(5)}`
+  return `anonymous-${word.toLowerCase()}-${nanoid(5)}`;
 };
 export default function Home() {
   const [userName, setUserName] = useState("");
   useEffect(() => {
-    const main = () =>{
-      const storedName =localStorage.getItem(STORAGE_KEY);
-      if(storedName){
-        setUserName(storedName);      
+    const main = () => {
+      const storedName = localStorage.getItem(STORAGE_KEY);
+      if (storedName) {
+        setUserName(storedName);
         return;
       }
-      const generatedName = generateUserName()
-      localStorage.setItem(STORAGE_KEY, generatedName)
-      setUserName(generatedName)
+      const generatedName = generateUserName();
+      localStorage.setItem(STORAGE_KEY, generatedName);
+      setUserName(generatedName);
+    };
+    main();
+  }, []);
+  const {mutate: createRoom} = useMutation({
+    mutationFn: async () => {
+      const res = await client.room.create.post();
     }
-    main()
-  },[])
+  });
   return (
     <main className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight text-green-500">{"/> "}your_Ping_Room</h1>
-          <p className="text-zinc-500 text-sm">Packets in. Messages out. No logs.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-green-500">
+            {"/> "}your_Ping_Room
+          </h1>
+          <p className="text-zinc-500 text-sm">
+            Packets in. Messages out. No logs.
+          </p>
         </div>
         <div className="border border-zinc-800 bg-zinc-900/50 p-6 backdrop-blur-md rounded-lg">
           <div className="space-y-5">
@@ -42,7 +53,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <button className="w-full bg-zinc-100 text-black p-3 text-sm font-bold hover:bg-zinc-50 hover:text-black transition-colors cursor-pointer disabled:opacity-50">
+            <button onClick={()=>createRoom()} className="w-full bg-zinc-100 text-black p-3 text-sm font-bold hover:bg-zinc-50 hover:text-black transition-colors cursor-pointer disabled:opacity-50">
               CREATE A SECURE ROOM
             </button>
           </div>
