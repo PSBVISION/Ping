@@ -1,43 +1,56 @@
 "use client";
+import { useUsername } from "@/hooks/use-username";
 import { client } from "@/lib/client";
 import { useMutation } from "@tanstack/react-query";
-import { nanoid } from "nanoid";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const ADJECTIVES = ["Swift", "Silent", "Brave", "Clever", "Mighty"];
-const STORAGE_KEY = "chat_app_user_name";
-const generateUserName = () => {
-  const word = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
-  return `anonymous-${word.toLowerCase()}-${nanoid(5)}`;
-};
 export default function Home() {
-  const [userName, setUserName] = useState("");
+  const { userName } = useUsername();
   const router = useRouter();
-  useEffect(() => {
-    const main = () => {
-      const storedName = localStorage.getItem(STORAGE_KEY);
-      if (storedName) {
-        setUserName(storedName);
-        return;
-      }
-      const generatedName = generateUserName();
-      localStorage.setItem(STORAGE_KEY, generatedName);
-      setUserName(generatedName);
-    };
-    main();
-  }, []);
-  const {mutate: createRoom} = useMutation({
+  const searchParams = useSearchParams();
+  const wasDestroyed = searchParams.get("destroyed") === "true";
+  const error = searchParams.get("error");
+  const { mutate: createRoom } = useMutation({
     mutationFn: async () => {
       const res = await client.room.create.post();
       if (res.status === 200) {
         router.push(`/room/${res.data?.roomId}`);
       }
-    }
+    },
   });
   return (
     <main className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
+        {wasDestroyed && (
+          <div className="bg-red-950/50 border border-red-900 p-4 text-center">
+            <p className="uppercase text-sm text-red-500 font-bold">
+              Room destroyed
+            </p>
+            <p className="text-zinc-500 text-xs mt-1">
+              All messages were Permanently deleted.👍
+            </p>
+          </div>
+        )}
+        {error === "room-not-found" && (
+          <div className="bg-red-950/50 border border-red-900 p-4 text-center">
+            <p className="uppercase text-sm text-red-500 font-bold">
+              room not found
+            </p>
+            <p className="text-zinc-500 text-xs mt-1">
+              This room does not exist or has been destroyed.
+            </p>
+          </div>
+        )}
+        {error === "room-full" && (
+          <div className="bg-red-950/50 border border-red-900 p-4 text-center">
+            <p className="uppercase text-sm text-red-500 font-bold">
+              room fulled
+            </p>
+            <p className="text-zinc-500 text-xs mt-1">
+              This room has reached its maximum capacity.
+            </p>
+          </div>
+        )}
         <div className="text-center space-y-2">
           <h1 className="text-2xl font-bold tracking-tight text-green-500">
             {"/> "}your_Ping_Room
@@ -58,7 +71,10 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <button onClick={()=>createRoom()} className="w-full bg-zinc-100 text-black p-3 text-sm font-bold hover:bg-zinc-50 hover:text-black transition-colors cursor-pointer disabled:opacity-50">
+            <button
+              onClick={() => createRoom()}
+              className="w-full bg-zinc-100 text-black p-3 text-sm font-bold hover:bg-zinc-50 hover:text-black transition-colors cursor-pointer disabled:opacity-50"
+            >
               CREATE A SECURE ROOM
             </button>
           </div>
