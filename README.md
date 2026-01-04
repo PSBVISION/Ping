@@ -200,4 +200,4 @@ MIT
 
 </div>
 
-<p align="right"><small><i>Thanks AI for writing this cool README</i></small></p>
+<h6 align="right"><sub><i>Thanks AI for writing this cool README</i></sub></h6>
