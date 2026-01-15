@@ -6,7 +6,7 @@
 
 **The secret and short chat(tea) for conversations that shouldn't exist.**
 
-[**✨ Try it Live →**](https://ping-room.vercel.app)
+[**✨ Try it Live →**](https://ping.psbvision.engineer/)
 
 ---
 
@@ -14,7 +14,7 @@
 
 ## 💬 What is Ping Room?
 
-Ping Room is a **zero-trace messaging platform** where every conversation has an expiration date. Create a room, share the link, chat in real-time — and watch everything disappear in 10 minutes. No accounts. No history. No evidence.
+Ping Room is a **zero-trace messaging platform** where every conversation has an expiration date. Create a room, share the link, chat in real-time and watch everything disappear in 10 minutes. No accounts. No history. No evidence.
 
 Perfect for:
 
@@ -27,7 +27,7 @@ Perfect for:
 
 ### ⚡ Create a room. Share a secret. Leave no trace.
 
-[**Launch Ping Room →**](https://ping-room.vercel.app)
+[**Launch Ping Room →**](https://ping.psbvision.engineer/)
 
 </div>
 
@@ -194,7 +194,7 @@ MIT
 
 **Your messages deserve to disappear.**
 
-[**Try Ping Room Now →**](https://ping-room.vercel.app)
+[**Try Ping Room Now →**](https://ping.psbvision.engineer/)
 
 <sub>Made with 💚 for those who value privacy</sub>
 
